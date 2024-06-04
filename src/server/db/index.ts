@@ -12,7 +12,11 @@ const globalForDb = globalThis as unknown as {
   conn: postgres.Sql | undefined;
 };
 
+// Initialize the database connection
 const conn = globalForDb.conn ?? postgres(env.DATABASE_URL);
+
+// Cache the connection in development environment
 if (env.NODE_ENV !== "production") globalForDb.conn = conn;
 
+// Create the Drizzle ORM instance
 export const db = drizzle(conn, { schema });
