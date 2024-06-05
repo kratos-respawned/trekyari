@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, calSans.variable)}>
+      <body className={cn(inter.className, calSans.variable,"antialiased")}>
         {children}
         <Debug />
       </body>
