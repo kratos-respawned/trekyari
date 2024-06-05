@@ -10,31 +10,31 @@ export const Navbar = () => {
       <nav className="ml-auto flex gap-4 sm:gap-6">
         <Link
           href="#"
-          className="text-base font-medium hover:underline  hover:text-primary underline-offset-4"
+          className="text-base transition-all font-medium hover:underline  hover:text-primary underline-offset-4"
         >
           Trekking
         </Link>
         <Link
           href="#"
-          className="text-base font-medium hover:underline hover:text-primary underline-offset-4"
+          className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
         >
           Expedition
         </Link>
         <Link
           href="#"
-          className="text-base font-medium hover:underline hover:text-primary underline-offset-4"
+          className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
         >
           Adventure
         </Link>
         <Link
           href="#"
-          className="text-base font-medium hover:underline hover:text-primary underline-offset-4"
+          className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
         >
           Holiday
         </Link>
         <Link
           href="tel:+919876543210"
-          className="text-base font-medium hover:underline hover:text-primary underline-offset-4"
+          className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
         >
           Contact
         </Link>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { Navbar } from "~/components/navbar";
+import { SearchMenu } from "~/components/searchbar";
 
 export default function Component() {
   return (
@@ -14,19 +15,19 @@ export default function Component() {
               <h1 className="text-3xl font-heading font-bold  sm:text-5xl md:text-6xl">
                 Explore the Wonders of Nature
               </h1>
-              <p className="max-w-[700px] mx-auto text-gray-500 md:text-xl dark:text-gray-400 mt-4">
+              <p className="max-w-[700px]  mx-auto text-gray-500 md:text-xl dark:text-gray-400 mt-4">
                 Discover the most breathtaking trekking destinations and plan
                 your next adventure with our expert tips and advice.
               </p>
             </div>
-
+            <SearchMenu />
             <Image
               priority
               src={"/home/test2.jpg"}
               width={1920}
               height={1080}
               alt="Trekking Adventures"
-              className=" w-full h-full mt-8 rounded-3xl"
+              className=" w-full h-full grayscale-[0.4] mt-8 shadow-primary/25 shadow-2xl rounded-3xl"
             />
           </div>
         </section>
@@ -34,7 +35,7 @@ export default function Component() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                <h2 className="text-3xl font-heading font-bold  sm:text-4xl md:text-5xl">
                   Popular Trekking Destinations
                 </h2>
                 <p className="max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
@@ -46,8 +47,8 @@ export default function Component() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
               <Card>
                 <CardContent className="flex flex-col items-center justify-center p-6">
-                  <img
-                    src="/placeholder.svg"
+                  <Image
+                    src="/"
                     width="400"
                     height="300"
                     alt="Destination"
@@ -62,8 +63,8 @@ export default function Component() {
               </Card>
               <Card>
                 <CardContent className="flex flex-col items-center justify-center p-6">
-                  <img
-                    src="/placeholder.svg"
+                  <Image
+                    src="/"
                     width="400"
                     height="300"
                     alt="Destination"
@@ -78,8 +79,8 @@ export default function Component() {
               </Card>
               <Card>
                 <CardContent className="flex flex-col items-center justify-center p-6">
-                  <img
-                    src="/placeholder.svg"
+                  <Image
+                    src="/"
                     width="400"
                     height="300"
                     alt="Destination"
