@@ -26,7 +26,7 @@ export function SearchMenu() {
       <Button
         variant="outline"
         className={cn(
-          "mt-5 mx-auto flex relative cursor-text items-center w-full justify-between rounded-[0.5rem] bg-background text-sm font-normal  shadow md:w-96 "
+          "mt-5 mx-auto flex relative cursor-text items-center w-full justify-between rounded-[0.5rem] bg-background text-sm font-normal  shadow  max-w-sm "
         )}
         onClick={() => setOpen(true)}
       >

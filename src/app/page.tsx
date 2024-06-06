@@ -34,7 +34,7 @@ export default function Component() {
               width={1920}
               height={1080}
               alt="Trekking Adventures"
-              className=" w-full h-full grayscale-[0.4] mt-8 shadow-primary/25 shadow-2xl rounded-3xl"
+              className=" w-full h-full grayscale-[0.4] mt-8 shadow-primary/25 shadow-2xl rounded-xl md:rounded-3xl"
             />
           </div>
         </section>

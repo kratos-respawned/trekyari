@@ -6,7 +6,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Inter, Rethink_Sans } from "next/font/google";
 import { Debug } from "~/components/ui/debug";
-const inter = Rethink_Sans({ subsets: ["latin"] });
+const inter = Rethink_Sans({ subsets: ["latin"],display:"swap" });
 const calSans = localFont({
   src: "../../assets/fonts/CalSans-SemiBold.woff2",
   variable: "--font-cal",
