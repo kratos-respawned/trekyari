@@ -69,7 +69,7 @@ export default function Component() {
                         <Card>
                           <CardContent className="flex flex-col items-center justify-center p-6">
                             <Image
-                              src="/"
+                              src="/home/mt.webp"
                               width="400"
                               height="300"
                               alt="Destination"

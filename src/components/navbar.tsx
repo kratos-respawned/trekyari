@@ -24,7 +24,7 @@ export const Navbar = () => {
     // backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-background/95
     <header className=" sticky top-0 shadow  z-50 border-b border-border/40 bg-background px-8 lg:px-10 h-14 flex items-center justify-between">
       <Link href="/" className="flex items-center justify-center">
-        <MountainIcon className="h-6 w-6 " />
+        <MountainIcon className="h-6 w-6" />
         <span className="sr-only">Trekking Adventures</span>
       </Link>
       <nav className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:flex  hidden gap-4 sm:gap-6">
@@ -146,20 +146,21 @@ const MobileNav = () => {
   );
 };
 function MountainIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
-  );
-}
+    return (
+      <svg
+        {...props}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
+      </svg>
+    );
+  }
+  

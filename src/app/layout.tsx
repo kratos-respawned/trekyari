@@ -6,6 +6,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Inter, Rethink_Sans } from "next/font/google";
 import { Debug } from "~/components/ui/debug";
+import { ClerkProvider } from "@clerk/nextjs";
 const inter = Rethink_Sans({ subsets: ["latin"],display:"swap" });
 const calSans = localFont({
   src: "../../assets/fonts/CalSans-SemiBold.woff2",
@@ -22,11 +23,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={cn(inter.className, calSans.variable,"antialiased")}>
-        {children}
-        <Debug />
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={cn(inter.className, calSans.variable, "antialiased")}>
+          {children}
+          <Debug />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
