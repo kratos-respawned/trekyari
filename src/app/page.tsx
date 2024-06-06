@@ -3,6 +3,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { Navbar } from "~/components/navbar";
 import { SearchMenu } from "~/components/searchbar";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "~/components/ui/carousel";
 
 export default function Component() {
   return (
@@ -32,7 +39,7 @@ export default function Component() {
           </div>
         </section>
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
-          <div className="container px-4 md:px-6">
+          <div className="container px-8 md:px-10">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-heading font-bold  sm:text-4xl md:text-5xl">
@@ -44,55 +51,45 @@ export default function Component() {
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-              <Card>
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <Image
-                    src="/"
-                    width="400"
-                    height="300"
-                    alt="Destination"
-                    className="aspect-[4/3] overflow-hidden rounded-lg object-cover"
-                  />
-                  <h3 className="text-xl font-bold mt-4">Everest Base Camp</h3>
-                  <p className="text-gray-500 dark:text-gray-400 mt-2">
-                    Challenge yourself on this iconic trek to the base of the
-                    world&apos;s highest mountain.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <Image
-                    src="/"
-                    width="400"
-                    height="300"
-                    alt="Destination"
-                    className="aspect-[4/3] overflow-hidden rounded-lg object-cover"
-                  />
-                  <h3 className="text-xl font-bold mt-4">Patagonia</h3>
-                  <p className="text-gray-500 dark:text-gray-400 mt-2">
-                    Explore the stunning glaciers, lakes, and mountains of this
-                    remote region.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <Image
-                    src="/"
-                    width="400"
-                    height="300"
-                    alt="Destination"
-                    className="aspect-[4/3] overflow-hidden rounded-lg object-cover"
-                  />
-                  <h3 className="text-xl font-bold mt-4">Machu Picchu</h3>
-                  <p className="text-gray-500 dark:text-gray-400 mt-2">
-                    Discover the ancient Inca citadel and hike through the
-                    breathtaking Andes.
-                  </p>
-                </CardContent>
-              </Card>
+            <div className="px-8 md:px-10 mt-8">
+              <Carousel
+                opts={{
+                  align: "start",
+                }}
+                className="w-full  "
+              >
+                <CarouselContent>
+                  {Array(5)
+                    .fill(0)
+                    .map((_, index) => (
+                      <CarouselItem
+                        key={index}
+                        className="md:basis-1/2 lg:basis-1/3"
+                      >
+                        <Card>
+                          <CardContent className="flex flex-col items-center justify-center p-6">
+                            <Image
+                              src="/"
+                              width="400"
+                              height="300"
+                              alt="Destination"
+                              className="aspect-[4/3] select-none overflow-hidden rounded-lg object-cover"
+                            />
+                            <h3 className="text-xl font-bold cursor-pointer select-none mt-4">
+                              Everest Base Camp
+                            </h3>
+                            <p className="text-gray-500 select-none dark:text-gray-400 mt-2">
+                              Challenge yourself on this iconic trek to the base
+                              of the world&apos;s highest mountain.
+                            </p>
+                          </CardContent>
+                        </Card>
+                      </CarouselItem>
+                    ))}
+                </CarouselContent>
+                <CarouselPrevious className="h-10 w-10" />
+                <CarouselNext className="h-10 w-10" />
+              </Carousel>
             </div>
           </div>
         </section>
