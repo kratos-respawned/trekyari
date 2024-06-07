@@ -1,11 +1,11 @@
-export default function AuthLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+import React from "react";
+
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className={"flex justify-center items-center h-screen w-screen"}>
+    <main className="flex min-h-screen w-full items-center justify-center">
       {children}
-    </div>
+    </main>
   );
-}
+};
+
+export default Layout;
