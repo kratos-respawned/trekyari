@@ -1,10 +1,10 @@
 "use server";
-import { db } from "../db/index";
-import { user } from "../db/schema";
+import { db } from "../db/index"; // Adjust the import path as needed
+import { user } from "../db/schema"; // Adjust the import path as needed
 import { sql } from "drizzle-orm";
 
 interface UserData {
-  id?: number;
+  clerkId: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -16,12 +16,12 @@ interface UserData {
 }
 
 interface UpdateParams {
-  id: number;
-  updateData: Partial<Omit<UserData, "id">>;
+  clerkId: string;
+  updateData: Partial<Omit<UserData, "clerkId">>;
 }
 
 interface DeleteParams {
-  id: number;
+  clerkId: string | undefined;
 }
 
 export async function createUser(userData: UserData) {
@@ -36,38 +36,41 @@ export async function createUser(userData: UserData) {
       .execute();
     return newUser;
   } catch (err) {
-    console.log(err);
+    console.error("Error creating user:", err);
+    throw err;
   }
 }
 
 export async function updateUser(params: UpdateParams) {
   try {
-    const { id, updateData } = params;
+    const { clerkId, updateData } = params;
     const updatedUser = await db
       .update(user)
       .set({
         ...updateData,
         password: updateData.password ?? undefined,
       })
-      .where(sql`${user.id} = ${id}`)
+      .where(sql`${user.clerkId} = ${clerkId}`)
       .returning()
       .execute();
     return updatedUser;
   } catch (err) {
-    console.log(err);
+    console.error("Error updating user:", err);
+    throw err;
   }
 }
 
 export async function deleteUser(params: DeleteParams) {
   try {
-    const { id } = params;
+    const { clerkId } = params;
     const deletedUser = await db
       .delete(user)
-      .where(sql`${user.id} = ${id}`)
+      .where(sql`${user.clerkId} = ${clerkId}`)
       .returning()
       .execute();
     return deletedUser;
   } catch (err) {
-    console.log(err);
+    console.error("Error deleting user:", err);
+    throw err;
   }
 }

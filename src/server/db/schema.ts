@@ -21,6 +21,7 @@ export const createTable = pgTableCreator((name) => `sdf_${name}`);
 // User table
 export const user = pgTable("user", {
   id: serial("id").primaryKey(),
+  clerkId: varchar("clerkId").notNull(), // Add this line
   firstName: varchar("firstName").notNull(),
   lastName: varchar("lastName").notNull(),
   email: varchar("email").notNull(),

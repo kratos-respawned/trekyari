@@ -49,11 +49,9 @@ export async function POST(req: NextRequest) {
   const { id } = evt.data;
   const eventType = evt.type;
 
-  console.log(
-    `Webhook event type: ${eventType}, ID: ${id}, Parsed ID: ${Number(id)}`
-  );
+  console.log(`Webhook event type: ${eventType}, ID: ${id}`);
 
-  if (isNaN(Number(id))) {
+  if (!id || typeof id !== "string") {
     console.error("Invalid ID received:", id);
     return new Response("Invalid ID received", { status: 400 });
   }
@@ -63,7 +61,7 @@ export async function POST(req: NextRequest) {
       const { id, email_addresses, first_name, last_name, phone_numbers } =
         evt.data;
       const pgUser = await createUser({
-        id: Number(id),
+        clerkId: id,
         firstName: first_name || "",
         lastName: last_name || "",
         email: email_addresses[0]?.email_address || "",
@@ -79,7 +77,7 @@ export async function POST(req: NextRequest) {
       const { id, email_addresses, first_name, last_name, phone_numbers } =
         evt.data;
       const pgUser = await updateUser({
-        id: Number(id),
+        clerkId: id,
         updateData: {
           firstName: first_name || "",
           lastName: last_name || "",
@@ -93,7 +91,7 @@ export async function POST(req: NextRequest) {
 
     if (eventType === "user.deleted") {
       const { id } = evt.data;
-      const deletedUser = await deleteUser({ id: Number(id) });
+      const deletedUser = await deleteUser({ clerkId: id });
       console.log("User deleted from DB:", deletedUser);
       return NextResponse.json({ message: "User deleted", deletedUser });
     }
