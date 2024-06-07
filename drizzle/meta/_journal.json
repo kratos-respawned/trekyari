@@ -15,6 +15,13 @@
       "when": 1717733595203,
       "tag": "0001_common_lake",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1717737856346,
+      "tag": "0002_safe_arachne",
+      "breakpoints": true
     }
   ]
 }
