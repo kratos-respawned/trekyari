@@ -25,7 +25,7 @@ export const user = pgTable("user", {
   lastName: varchar("lastName").notNull(),
   email: varchar("email").notNull(),
   phoneNumber: varchar("phoneNumber").notNull(),
-  password: varchar("password").notNull(),
+  password: varchar("password"),
   roleId: integer("roleId")
     .notNull()
     .default(sql`1`),
