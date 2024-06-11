@@ -9,7 +9,7 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { Button } from "./ui/button";
-import { AlignRight, Phone, PhoneOutgoing } from "lucide-react";
+import { AlignRight, Mountain, Phone, PhoneOutgoing } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -24,7 +24,7 @@ export const Navbar = () => {
     // backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-background/95
     <header className=" sticky top-0 shadow  z-50 border-b border-border/40 bg-background px-8 lg:px-10 h-14 flex items-center justify-between">
       <Link href="/" className="flex items-center justify-center">
-        <MountainIcon className="h-6 w-6" />
+        <Mountain className="h-6 w-6" />
         <span className="sr-only">Trekking Adventures</span>
       </Link>
       <nav className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:flex  hidden gap-4 sm:gap-6">
@@ -76,7 +76,7 @@ export const Navbar = () => {
 const MobileNav = () => {
   return (
     <Sheet>
-      <SheetTrigger  asChild>
+      <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="   lg:hidden">
           <AlignRight />
           <span className="sr-only">Open Navigation Menu</span>
@@ -87,54 +87,54 @@ const MobileNav = () => {
           Trekyaari
         </Link>
         {/* <div className="flex flex-col h-full  gap-3 justify-between"> */}
-          <nav className=" my-4  flex-1   flex flex-col gap-4">
-            <Link
-              href="/"
-              className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
-            >
-              Trekking
-            </Link>
-            <Link
-              href="#"
-              className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
-            >
-              Expedition
-            </Link>
-            <Link
-              href="#"
-              className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
-            >
-              Adventure
-            </Link>
-            <Link
-              href="#"
-              className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
-            >
-              Holiday
-            </Link>
-            <Link
-              href="tel:+919876543210"
-              className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
-            >
-              Contact
-            </Link>
-          </nav>
-          
-          <Card className="self-end place-self-end">
-            <CardHeader className=" ">
-              <CardTitle className="">Follow us on instagram</CardTitle>
-              <CardDescription>
-                Get the latest updates on our treks and expeditions and
-                exclusive offers.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="">
-              <Button size="sm" className="w-full">
-                Follow us
-              </Button>
-            </CardContent>
-          </Card>
-          {/* <div className="px-6">
+        <nav className=" my-4  flex-1   flex flex-col gap-4">
+          <Link
+            href="/"
+            className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
+          >
+            Trekking
+          </Link>
+          <Link
+            href="#"
+            className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
+          >
+            Expedition
+          </Link>
+          <Link
+            href="#"
+            className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
+          >
+            Adventure
+          </Link>
+          <Link
+            href="#"
+            className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
+          >
+            Holiday
+          </Link>
+          <Link
+            href="tel:+919876543210"
+            className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
+          >
+            Contact
+          </Link>
+        </nav>
+
+        <Card className="self-end place-self-end">
+          <CardHeader className=" ">
+            <CardTitle className="">Follow us on instagram</CardTitle>
+            <CardDescription>
+              Get the latest updates on our treks and expeditions and exclusive
+              offers.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="">
+            <Button size="sm" className="w-full">
+              Follow us
+            </Button>
+          </CardContent>
+        </Card>
+        {/* <div className="px-6">
             <Button size={"sm"} className=" w-full gap-2">
               <PhoneOutgoing className="w-4 h-4 " />
               Contact Us
@@ -145,22 +145,3 @@ const MobileNav = () => {
     </Sheet>
   );
 };
-function MountainIcon(props: React.SVGProps<SVGSVGElement>) {
-    return (
-      <svg
-        {...props}
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-      </svg>
-    );
-  }
-  
