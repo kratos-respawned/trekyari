@@ -11,7 +11,7 @@ import {
   CarouselPrevious,
 } from "~/components/ui/carousel";
 
-export default function Component() {
+export default async function Component() {
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <Navbar />
