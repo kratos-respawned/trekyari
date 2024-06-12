@@ -17,9 +17,11 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import { auth, signOut } from "~/auth";
 // import { SiInstagram } from "@icons-pack/react-simple-icons";
 
-export const Navbar = () => {
+export const Navbar = async () => {
+  const session = await auth();
   return (
     // backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-background/95
     <header className=" sticky top-0 shadow  z-50 border-b border-border/40 bg-background px-8 lg:px-10 h-14 flex items-center justify-between">
@@ -67,7 +69,18 @@ export const Navbar = () => {
         <Button variant={"secondary"}  size={"icon"}>
           <SiInstagram className="w-4 h-4"/>
         </Button> */}
-        <Button>Sign In</Button>
+        {session?.user ? (
+          <form
+            action={async () => {
+              "use server";
+              signOut();
+            }}
+          >
+            <Button>Sign Out</Button>
+          </form>
+        ) : (
+          <Link href={"/login"}>Sign </Link>
+        )}
       </div>
     </header>
   );

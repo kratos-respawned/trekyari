@@ -6,6 +6,10 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Inter, Rethink_Sans } from "next/font/google";
 import { Debug } from "~/components/ui/debug";
+import Script from "next/script";
+import { GoogleOneTap } from "~/components/googleOneTap";
+import { auth } from "~/auth";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Rethink_Sans({ subsets: ["latin"], display: "swap" });
 const calSans = localFont({
@@ -24,9 +28,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, calSans.variable, "antialiased")}>
-        {children}
-        <Debug />
+      <body className={cn(inter.className, calSans.variable, "antialiased relative")}>
+        <SessionProvider>
+          {children}
+          <Debug />
+          <GoogleOneTap />
+          <Script
+            src="https://accounts.google.com/gsi/client"
+            strategy="afterInteractive"
+          />
+        </SessionProvider>
       </body>
     </html>
   );
