@@ -19,8 +19,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
-import { signIn } from "~/auth";
-import { googleOauth } from "../auth-actions";
+
+
+import { googleOauth, passwordAuth } from "../auth-actions";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -38,6 +39,7 @@ export function SignInForm({ className, ...props }: UserAuthFormProps) {
   const Login = async (formdata: signInSchema) => {
     const { email, password } = formdata;
     setIsLoading(true);
+    await passwordAuth({ email, password });
     setIsLoading(false);
   };
   const GoogleSignIn = async () => {

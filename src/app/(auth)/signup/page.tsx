@@ -10,8 +10,9 @@ import { redirect } from "next/navigation";
 import { auth } from "~/auth";
 
 export const metadata: Metadata = {
-  title: "Create Account - Docket",
-  description: "Create an account to access your projects and tasks.",
+  title: "Create Account ",
+  description:
+    " Create your Trekyaari account to access your saved trips, reviews, and more.",
 };
 
 export default async function SignUpPage() {

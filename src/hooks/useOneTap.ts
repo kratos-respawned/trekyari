@@ -1,56 +1,67 @@
-import { SignInOptions, useSession,signIn } from "next-auth/react";
-import { useEffect, useState } from "react";
-
-
+import { useState } from "react";
+import { useSession, signIn, SignInOptions } from "next-auth/react";
+import { env } from "~/env";
 
 interface OneTapSigninOptions {
   parentContainerId?: string;
 }
 
 const useOneTapSignin = (
-  opt?: OneTapSigninOptions & Pick<SignInOptions, "redirect" | "callbackUrl">
+  options?: OneTapSigninOptions &
+    Pick<SignInOptions, "redirect" | "callbackUrl">
 ) => {
-  const { status } = useSession();
-  const isSignedIn = status === "authenticated";
-  const { parentContainerId } = opt || {};
+  const { parentContainerId } = options || {};
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (!isLoading && !isSignedIn) {
-      const { google } = window as any;
-      if (google) {
-        google.accounts.id.initialize({
-          client_id: process.env.NEXT_PUBLIC_GOOGLE_ID,
-          callback: async (response: any) => {
-            setIsLoading(true);
+  // Taking advantage in recent development of useSession hook.
+  // If user is unauthenticated, google one tap ui is initialized and rendered
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      if (!isLoading) {
+        const { google } = window as unknown as any;
+        if (google) {
+          google.accounts.id.initialize({
+            client_id: env.NEXT_PUBLIC_GOOGLE_ID,
+            // auto_select: true, // TODO: Uncomment this line if you want to skip the one tap UI
+            callback: async (response: any) => {
+              setIsLoading(true);
+              console.log("response", response);
+              await signIn("googleonetap", {
+                credential: response.credential,
+                redirect: true,
+                ...options,
+              });
 
-            // Here we call our Provider with the token provided by google
-            await signIn("credentials", {
-              credential: response.credential,
-              redirect: true,
-              ...opt,
-            });
-            setIsLoading(false);
-          },
-          prompt_parent_id: parentContainerId,
-          style:
-            "position: absolute; top: 100px; right: 30px;width: 0; height: 0; z-index: 1001;",
-        });
+              setIsLoading(false);
+            },
+            prompt_parent_id: parentContainerId,
+          });
 
-        // Here we just console.log some error situations and reason why the google one tap
-        // is not displayed. You may want to handle it depending on yuor application
-        google.accounts.id.prompt((notification: any) => {
-          if (notification.isNotDisplayed()) {
-            console.log(notification.getNotDisplayedReason());
-          } else if (notification.isSkippedMoment()) {
-            console.log(notification.getSkippedReason());
-          } else if (notification.isDismissedMoment()) {
-            console.log(notification.getDismissedReason());
-          }
-        });
+          // Here we just console.log some error situations and reason why the google one tap
+          // is not displayed. You may want to handle it depending on yuor application
+          google.accounts.id.prompt((notification: any) => {
+            if (notification.isNotDisplayed()) {
+              console.log(
+                "getNotDisplayedReason ::",
+                notification.getNotDisplayedReason()
+              );
+            } else if (notification.isSkippedMoment()) {
+              console.log(
+                "getSkippedReason  ::",
+                notification.getSkippedReason()
+              );
+            } else if (notification.isDismissedMoment()) {
+              console.log(
+                "getDismissedReason ::",
+                notification.getDismissedReason()
+              );
+            }
+          });
+        }
       }
-    }
-  }, [isLoading, isSignedIn, parentContainerId, opt]);
+    },
+  });
 
   return { isLoading };
 };

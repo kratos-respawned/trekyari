@@ -23,7 +23,6 @@ import { auth, signOut } from "~/auth";
 export const Navbar = async () => {
   const session = await auth();
   return (
-    // backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-background/95
     <header className=" sticky top-0 shadow  z-50 border-b border-border/40 bg-background px-8 lg:px-10 h-14 flex items-center justify-between">
       <Link href="/" className="flex items-center justify-center">
         <Mountain className="h-6 w-6" />
@@ -63,17 +62,11 @@ export const Navbar = async () => {
       </nav>
       <MobileNav />
       <div className="hidden lg:flex items-center gap-3">
-        {/* <Button variant={"secondary"}  size={"icon"}>
-          <Phone className="w-4 h-4"/>
-        </Button>
-        <Button variant={"secondary"}  size={"icon"}>
-          <SiInstagram className="w-4 h-4"/>
-        </Button> */}
         {session?.user ? (
           <form
             action={async () => {
               "use server";
-              signOut();
+              await signOut();
             }}
           >
             <Button>Sign Out</Button>

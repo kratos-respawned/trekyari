@@ -4,16 +4,14 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-import { ReaderIcon } from "@radix-ui/react-icons";
-
 import { redirect } from "next/navigation";
 import { SignInForm } from "./sign-in-form";
 import { auth } from "~/auth";
 
 export const metadata: Metadata = {
-  title: "Sign In - Docket",
+  title: "Sign In ",
   description:
-    " Sign in to your Docket account to access your projects and tasks.",
+    " Sign in to your Trekyaari account to access your saved trips, reviews, and more.",
 };
 
 export default async function AuthenticationPage() {
