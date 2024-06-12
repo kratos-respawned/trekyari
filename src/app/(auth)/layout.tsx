@@ -31,4 +31,6 @@ export default function AuthLayout({
       {children}
     </main>
   );
-}
+};
+
+

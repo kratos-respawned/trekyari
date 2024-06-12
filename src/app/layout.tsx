@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { cn } from "~/lib/utils";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Inter, Rethink_Sans } from "next/font/google";
+import { Rethink_Sans } from "next/font/google";
 import { Debug } from "~/components/ui/debug";
 import Script from "next/script";
 import OneTapComponent from "~/components/googleOneTap";
@@ -10,7 +10,12 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "~/auth";
 import { Toaster } from "sonner";
 
-const inter = Rethink_Sans({ subsets: ["latin"], display: "swap" });
+const inter = Rethink_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  fallback: ["Arial", "sans-serif"],
+  adjustFontFallback: true,
+}); 
 const calSans = localFont({
   src: "../../assets/fonts/CalSans-SemiBold.woff2",
   variable: "--font-cal",
