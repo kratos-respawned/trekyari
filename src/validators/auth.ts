@@ -1,5 +1,5 @@
-import * as z from "zod";
 import { UserRole } from "@prisma/client";
+import * as z from "zod";
 
 export const SettingsSchema = z
   .object({
@@ -38,6 +38,21 @@ export const SettingsSchema = z
   );
 export type SettingsSchema = z.infer<typeof SettingsSchema>;
 
+export const ResetPasswordSchema = z
+  .object({
+    password: z.string().min(8, {
+      message: "Minimum of 8 characters required",
+    }),
+    confirmPassword: z
+      .string()
+      .min(8, { message: "Minimum of 8 characters required" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+
+export type ResetPasswordSchema = z.infer<typeof ResetPasswordSchema>;
 export const NewPasswordSchema = z.object({
   password: z.string().min(8, {
     message: "Minimum of 8 characters required",

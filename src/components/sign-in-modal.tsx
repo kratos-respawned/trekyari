@@ -17,7 +17,7 @@ export function SignInModal() {
       </DialogTrigger>
       <DialogContent
         className={cn(
-          "inset-0 max-w-none  lg:max-w-[1020px]  p-0 overflow-hidden flex  lg:grid border-0 grid-cols-2 gap-0 items-center h-full lg:max-h-[600px] w-full rounded-2xl",
+          "inset-0 max-w-none  lg:max-w-[1020px]  p-0 overflow-hidden flex  lg:grid border-0 grid-cols-2 gap-0 items-center h-full lg:max-h-[650px] w-full rounded-2xl",
           page === "signup" && "lg:max-h-[650px]"
         )}
       >
@@ -30,14 +30,14 @@ export function SignInModal() {
             fill
           />
         </div>
-        <div className="p-6 space-y-4 flex-1 max-w-xl lg:max-w-none mx-auto lg:mx-0 ">
+        <div className="p-6 space-y-4 flex-1 max-w-xl  lg:max-w-none mx-auto lg:mx-0 ">
           {page === "login" ? (
             <>
               <div>
                 <h3 className="font-heading text-2xl">Sign in</h3>
                 <p>Sign in to get started.</p>
               </div>
-              <SignInForm />
+              <SignInForm  />
               <div className="flex justify-center">
                 <p className="text-sm ">
                   New User ?{" "}

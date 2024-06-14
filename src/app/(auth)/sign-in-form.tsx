@@ -85,6 +85,7 @@ export function SignInForm({ className, ...props }: UserAuthFormProps) {
               Sign In
             </Button>
             <Button
+            onClick={()=>router.push("/auth/reset-password")}
               type="button"
               variant={"link"}
               className="w-fit flex ml-auto text-xs px-0 h-0"

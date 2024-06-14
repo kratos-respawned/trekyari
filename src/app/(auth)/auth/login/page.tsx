@@ -21,10 +21,10 @@ export default async function AuthenticationPage() {
   return (
     <div className="lg:p-8">
       <Link
-        href="/signup"
+        href="/auth/register"
         className={cn(
-          buttonVariants({ variant: "ghost" }),
-          "absolute right-4 top-4 md:right-8 md:top-8"
+          buttonVariants({ variant: "link" }),
+          "absolute text-foreground hover:text-primary right-4 top-4 md:right-8 md:top-8"
         )}
       >
         Sign Up
