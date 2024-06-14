@@ -4,18 +4,18 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Rethink_Sans } from "next/font/google";
 import { Debug } from "~/components/ui/debug";
-import Script from "next/script";
-import OneTapComponent from "~/components/googleOneTap";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "~/auth";
 import { Toaster } from "sonner";
+import OneTapComponent from "~/components/googleOneTap";
+import Script from "next/script";
 
 const inter = Rethink_Sans({
   subsets: ["latin"],
   display: "swap",
   fallback: ["Arial", "sans-serif"],
   adjustFontFallback: true,
-}); 
+});
 const calSans = localFont({
   src: "../../assets/fonts/CalSans-SemiBold.woff2",
   variable: "--font-cal",
@@ -44,11 +44,12 @@ export default async function RootLayout({
         >
           {children}
           <Debug />
+
           <OneTapComponent />
-          <Toaster/>
+          <Toaster />
           <Script
             src="https://accounts.google.com/gsi/client"
-            strategy="afterInteractive"
+            strategy="beforeInteractive"
           />
         </body>
       </html>
