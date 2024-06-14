@@ -1,15 +1,6 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
-import { KeyRound, Loader } from "lucide-react";
-import * as React from "react";
-import { SiGoogle } from "@icons-pack/react-simple-icons";
-import { useForm } from "react-hook-form";
-import { signInSchema } from "@/validators/sign-in-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -18,10 +9,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { signInSchema } from "@/validators/sign-in-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SiGoogle } from "@icons-pack/react-simple-icons";
+import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
-
-
-import { googleOauth, passwordAuth } from "../auth-actions";
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import { googleOauth } from "~/app/(auth)/auth-actions";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -39,7 +36,7 @@ export function SignInForm({ className, ...props }: UserAuthFormProps) {
   const Login = async (formdata: signInSchema) => {
     const { email, password } = formdata;
     setIsLoading(true);
-    await passwordAuth({ email, password });
+
     setIsLoading(false);
   };
   const GoogleSignIn = async () => {
@@ -88,6 +85,7 @@ export function SignInForm({ className, ...props }: UserAuthFormProps) {
               Sign In
             </Button>
             <Button
+            onClick={()=>router.push("/auth/reset-password")}
               type="button"
               variant={"link"}
               className="w-fit flex ml-auto text-xs px-0 h-0"

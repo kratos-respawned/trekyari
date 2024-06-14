@@ -1,12 +1,11 @@
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 
 import { redirect } from "next/navigation";
-import { SignInForm } from "./sign-in-form";
 import { auth } from "~/auth";
+import { SignInForm } from "../../sign-in-form";
 
 export const metadata: Metadata = {
   title: "Sign In ",
@@ -22,10 +21,10 @@ export default async function AuthenticationPage() {
   return (
     <div className="lg:p-8">
       <Link
-        href="/signup"
+        href="/auth/register"
         className={cn(
-          buttonVariants({ variant: "ghost" }),
-          "absolute right-4 top-4 md:right-8 md:top-8"
+          buttonVariants({ variant: "link" }),
+          "absolute text-foreground hover:text-primary right-4 top-4 md:right-8 md:top-8"
         )}
       >
         Sign Up

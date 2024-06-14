@@ -1,10 +1,9 @@
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 
-import { SignUpForm } from "./sign-up-form";
+import { SignUpForm } from "../../sign-up-form";
 
 import { redirect } from "next/navigation";
 import { auth } from "~/auth";
@@ -24,10 +23,10 @@ export default async function SignUpPage() {
   return (
     <div className="lg:p-8 place-self-center">
       <Link
-        href="/login"
+        href="/auth/login"
         className={cn(
-          buttonVariants({ variant: "ghost" }),
-          "absolute right-4 top-4 md:right-8 md:top-8"
+          buttonVariants({ variant: "link" }),
+          "absolute text-foreground hover:text-primary right-4 top-4 md:right-8 md:top-8"
         )}
       >
         Sign In

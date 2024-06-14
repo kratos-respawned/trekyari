@@ -1,5 +1,5 @@
-import * as z from "zod";
 import { UserRole } from "@prisma/client";
+import * as z from "zod";
 
 export const SettingsSchema = z
   .object({
@@ -36,18 +36,36 @@ export const SettingsSchema = z
       path: ["password"],
     }
   );
+export type SettingsSchema = z.infer<typeof SettingsSchema>;
 
+export const ResetPasswordSchema = z
+  .object({
+    password: z.string().min(8, {
+      message: "Minimum of 8 characters required",
+    }),
+    confirmPassword: z
+      .string()
+      .min(8, { message: "Minimum of 8 characters required" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+
+export type ResetPasswordSchema = z.infer<typeof ResetPasswordSchema>;
 export const NewPasswordSchema = z.object({
   password: z.string().min(8, {
     message: "Minimum of 8 characters required",
   }),
 });
+export type NewPasswordSchema = z.infer<typeof NewPasswordSchema>;
 
 export const ResetSchema = z.object({
   email: z.string().email({
     message: "Email is required",
   }),
 });
+export type ResetSchema = z.infer<typeof ResetSchema>;
 
 export const LoginSchema = z.object({
   email: z
@@ -63,6 +81,7 @@ export const LoginSchema = z.object({
     .max(100, "Maximum 100 characters "),
   code: z.optional(z.string()),
 });
+export type LoginSchema = z.infer<typeof LoginSchema>;
 
 export const RegisterSchema = z.object({
   email: z
@@ -81,3 +100,4 @@ export const RegisterSchema = z.object({
     .min(3, "Minimum 3 characters required")
     .max(100, "Maximum 100 characters "),
 });
+export type RegisterSchema = z.infer<typeof RegisterSchema>;

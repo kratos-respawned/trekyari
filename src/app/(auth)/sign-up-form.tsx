@@ -1,15 +1,11 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { KeyRound, Loader, Mountain } from "lucide-react";
-import * as React from "react";
+import { Loader } from "lucide-react";
 
-import { useForm } from "react-hook-form";
-import { signUpSchema } from "@/validators/sign-up-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { googleOauth } from "@/app/(auth)/auth-actions";
 import {
   Form,
   FormControl,
@@ -18,37 +14,42 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { SiGoogle } from "@icons-pack/react-simple-icons";
-import { signIn } from "~/auth";
-import { googleOauth } from "../auth-actions";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { register } from "~/app/(auth)/actions/register";
+import { RegisterSchema } from "~/validators/auth";
 
 export function SignUpForm() {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const router = useRouter();
-  const form = useForm<signUpSchema>({
-    resolver: zodResolver(signUpSchema),
+  const [isPending, startTransition] = useTransition();
+  const form = useForm<RegisterSchema>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  async function signUp(formdata: signUpSchema) {
-    setIsLoading(true);
-
-    setIsLoading(false);
-    if (false) {
-      console.error("Error signing up with email and password");
-    } else {
-      toast("Please check your mail ");
-    }
+  async function signUp(formdata: RegisterSchema) {
+    startTransition(async () => {
+      const { success, error } = await register(formdata);
+      if (error) {
+        toast("Error signing up", {
+          description: error,
+        });
+        return;
+      }
+      toast("Success", {
+        description: success,
+      });
+    });
   }
-  const GoogleSignIn = async () => {
-    setIsLoading(true);
-    await googleOauth();
-    setIsLoading(false);
+  const GoogleSignIn = () => {
+    startTransition(async () => {
+      await googleOauth();
+    });
   };
   return (
     <div className={cn("grid gap-6")}>
@@ -98,8 +99,8 @@ export function SignUpForm() {
                 </FormItem>
               )}
             />
-            <Button disabled={isLoading}>
-              {isLoading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+            <Button disabled={isPending}>
+              {isPending && <Loader className="mr-2 h-4 w-4 animate-spin" />}
               Sign Up with Email
             </Button>
           </div>
@@ -120,9 +121,9 @@ export function SignUpForm() {
         onClick={GoogleSignIn}
         variant="outline"
         className="w-full"
-        disabled={isLoading}
+        disabled={isPending}
       >
-        {isLoading ? (
+        {isPending ? (
           <Loader className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <SiGoogle className="mr-2 h-4 w-4" />

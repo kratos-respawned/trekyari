@@ -1,14 +1,7 @@
 import Link from "next/link";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "./ui/sheet";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
+
+import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { AlignRight, Mountain, Phone, PhoneOutgoing } from "lucide-react";
 import {
   Card,
@@ -17,11 +10,13 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { auth, signOut } from "~/auth";
+
+import { SignInModal } from "@/components/sign-in-modal";
+
 // import { SiInstagram } from "@icons-pack/react-simple-icons";
 
 export const Navbar = async () => {
-  const session = await auth();
+  // const session = await auth();
   return (
     <header className=" sticky top-0 shadow  z-50 border-b border-border/40 bg-background px-8 lg:px-10 h-14 flex items-center justify-between">
       <Link href="/" className="flex items-center justify-center">
@@ -62,7 +57,7 @@ export const Navbar = async () => {
       </nav>
       <MobileNav />
       <div className="hidden lg:flex items-center gap-3">
-        {session?.user ? (
+        {/* {session?.user ? (
           <form
             action={async () => {
               "use server";
@@ -71,9 +66,10 @@ export const Navbar = async () => {
           >
             <Button>Sign Out</Button>
           </form>
-        ) : (
-          <Link href={"/login"}>Sign </Link>
-        )}
+        ) : ( */}
+        <></>
+        <SignInModal />
+        {/* )} */}
       </div>
     </header>
   );
