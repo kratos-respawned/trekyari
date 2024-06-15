@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { redirect } from "next/navigation";
 import { ResetPasswordForm } from "~/app/(auth)/password-form";
+import { ResetPasswordMailForm } from "~/app/(auth)/reset-password-email-form";
 import { auth } from "~/auth";
 
 export const metadata: Metadata = {
@@ -24,7 +25,6 @@ export default async function PasswordResetPage({
   if (session && session.user) {
     redirect("/");
   }
-  console.log(searchParams.token);
   return (
     <div className="lg:p-8 place-self-center">
       <Link
@@ -42,10 +42,16 @@ export default async function PasswordResetPage({
             Reset Password
           </h1>
           <p className="text-sm text-muted-foreground">
-            Enter your new password below
+            {searchParams.token
+              ? "Enter your new password below"
+              : "Forgot your password? No worries! Enter your email address below to reset your password."}
           </p>
         </div>
-        <ResetPasswordForm />
+        {searchParams.token ? (
+          <ResetPasswordForm token={searchParams.token} />
+        ) : (
+          <ResetPasswordMailForm />
+        )}
       </div>
     </div>
   );

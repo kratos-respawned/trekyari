@@ -40,12 +40,16 @@ export type SettingsSchema = z.infer<typeof SettingsSchema>;
 
 export const ResetPasswordSchema = z
   .object({
-    password: z.string().min(8, {
-      message: "Minimum of 8 characters required",
-    }),
+    password: z
+      .string()
+      .min(8, {
+        message: "Minimum of 8 characters required",
+      })
+      .max(100, "Maximum 100 characters "),
     confirmPassword: z
       .string()
-      .min(8, { message: "Minimum of 8 characters required" }),
+      .min(8, { message: "Minimum of 8 characters required" })
+      .max(100, "Maximum 100 characters "),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -54,16 +58,23 @@ export const ResetPasswordSchema = z
 
 export type ResetPasswordSchema = z.infer<typeof ResetPasswordSchema>;
 export const NewPasswordSchema = z.object({
-  password: z.string().min(8, {
-    message: "Minimum of 8 characters required",
-  }),
+  password: z
+    .string()
+    .min(8, {
+      message: "Minimum of 8 characters required",
+    })
+    .max(100, "Maximum 100 characters "),
 });
 export type NewPasswordSchema = z.infer<typeof NewPasswordSchema>;
 
 export const ResetSchema = z.object({
-  email: z.string().email({
-    message: "Email is required",
-  }),
+  email: z
+    .string()
+    .email({
+      message: "Email is required",
+    })
+    .min(3, "Minimum 3 characters required")
+    .max(100, "Maximum 100 characters "),
 });
 export type ResetSchema = z.infer<typeof ResetSchema>;
 
