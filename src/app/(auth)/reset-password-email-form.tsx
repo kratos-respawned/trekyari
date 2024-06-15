@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,32 +16,27 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { newPassword } from "~/app/(auth)/actions/new-password";
-import { ResetPasswordSchema } from "~/validators/auth";
+import { reset } from "~/app/(auth)/actions/reset";
+import { ResetSchema } from "~/validators/auth";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
-  token: string;
-}
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function ResetPasswordForm({
-  token,
+export function ResetPasswordMailForm({
   className,
   ...props
 }: UserAuthFormProps) {
   const [isLoading, startTransition] = useTransition();
   const router = useRouter();
-  const form = useForm<ResetPasswordSchema>({
-    resolver: zodResolver(ResetPasswordSchema),
+  const form = useForm<ResetSchema>({
+    resolver: zodResolver(ResetSchema),
     defaultValues: {
-      password: "",
-      confirmPassword: "",
+      email: "",
     },
   });
 
-  const Reset = async (formdata: ResetPasswordSchema) => {
-    const { password } = formdata;
+  const Reset = async (formdata: ResetSchema) => {
     startTransition(async () => {
-      const { error, success } = await newPassword({ password }, token);
+      const { error, success } = await reset({ email: formdata.email });
       if (error) {
         toast("Error resetting password", {
           description: error,
@@ -52,7 +46,6 @@ export function ResetPasswordForm({
       toast("Success", {
         description: success,
       });
-      // router.push("/auth/login");
     });
   };
   return (
@@ -62,14 +55,14 @@ export function ResetPasswordForm({
           <div className="grid gap-2">
             <FormField
               control={form.control}
-              name="password"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="v3ryS3cr3tP@ssw0rd"
-                      type="password"
+                      placeholder="rick@morty.com"
+                      type="email"
                       {...field}
                     />
                   </FormControl>
@@ -77,24 +70,6 @@ export function ResetPasswordForm({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="v3ryS3cr3tP@ssw0rd"
-                      type="password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <Button disabled={isLoading} className="mt-3">
               {isLoading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
               Reset Password

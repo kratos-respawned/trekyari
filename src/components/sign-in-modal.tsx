@@ -37,7 +37,7 @@ export function SignInModal() {
                 <h3 className="font-heading text-2xl">Sign in</h3>
                 <p>Sign in to get started.</p>
               </div>
-              <SignInForm  />
+              <SignInForm />
               <div className="flex justify-center">
                 <p className="text-sm ">
                   New User ?{" "}

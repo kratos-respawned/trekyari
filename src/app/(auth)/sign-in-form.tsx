@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -11,38 +11,39 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { signInSchema } from "@/validators/sign-in-schema";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SiGoogle } from "@icons-pack/react-simple-icons";
 import { Loader } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import * as React from "react";
+import { useTransition } from "react";
+
 import { useForm } from "react-hook-form";
-import { googleOauth } from "~/app/(auth)/auth-actions";
+import { googleOauth, login } from "~/app/(auth)/actions/login";
+import { LoginSchema } from "~/validators/auth";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function SignInForm({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isLoading, startTransition] = useTransition();
   const router = useRouter();
-  const form = useForm<signInSchema>({
-    resolver: zodResolver(signInSchema),
+  const form = useForm<LoginSchema>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const Login = async (formdata: signInSchema) => {
+  const Login = async (formdata: LoginSchema) => {
     const { email, password } = formdata;
-    setIsLoading(true);
-
-    setIsLoading(false);
+    startTransition(async () => {
+      await login({ email, password });
+    });
   };
   const GoogleSignIn = async () => {
-    setIsLoading(true);
-    await googleOauth();
-    setIsLoading(false);
+    startTransition(async () => await googleOauth());
   };
   return (
     <div className={cn("grid gap-6", className)} {...props}>
@@ -84,14 +85,15 @@ export function SignInForm({ className, ...props }: UserAuthFormProps) {
               {isLoading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
               Sign In
             </Button>
-            <Button
-            onClick={()=>router.push("/auth/reset-password")}
-              type="button"
-              variant={"link"}
-              className="w-fit flex ml-auto text-xs px-0 h-0"
+            <Link
+              href={"/auth/reset-password"}
+              className={cn(
+                buttonVariants({ variant: "link" }),
+                "w-fit flex ml-auto text-xs px-0 h-0"
+              )}
             >
               Forget Password
-            </Button>
+            </Link>
           </div>
         </form>
       </Form>

@@ -3,13 +3,14 @@ import { cn } from "@/lib/utils";
 import { Metadata } from "next";
 import Link from "next/link";
 
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { newVerification } from "~/app/(auth)/actions/new-verification";
 import { auth } from "~/auth";
 
 export const metadata: Metadata = {
-  title: "Create Account ",
+  title: "Email Verification ",
   description:
-    " Create your Trekyaari account to access your saved trips, reviews, and more.",
+    " Verify your email address to access your account. If you haven't received an email, please check your spam folder.",
 };
 
 export default async function VerificationPage({
@@ -20,10 +21,10 @@ export default async function VerificationPage({
   searchParams: { token: string | undefined };
 }) {
   const session = await auth();
-  if (session && session.user) {
-    redirect("/");
-  }
-
+  if (session && session.user) redirect("/");
+  const token = searchParams.token;
+  if (!token) notFound();
+  const { error } = await newVerification(token);
   return (
     <div className="lg:p-8 place-self-center">
       <Link
@@ -38,10 +39,12 @@ export default async function VerificationPage({
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
         <div className="flex flex-col space-y-2 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">
-            Email Verification
+            {error ? "Email Verification Failed" : "Email Verified"}
           </h1>
           <p className="text-sm text-muted-foreground">
-            Your account has been verified. You can now login to your account.
+            {error
+              ? `Verification failed: ${error}`
+              : "Your account has been verified. You can now login to your account."}
           </p>
           <Link
             href={"/auth/login"}

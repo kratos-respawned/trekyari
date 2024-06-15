@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Loader } from "lucide-react";
 
-import { googleOauth } from "@/app/(auth)/auth-actions";
 import {
   Form,
   FormControl,
@@ -19,6 +18,7 @@ import { SiGoogle } from "@icons-pack/react-simple-icons";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { googleOauth } from "~/app/(auth)/actions/login";
 import { register } from "~/app/(auth)/actions/register";
 import { RegisterSchema } from "~/validators/auth";
 

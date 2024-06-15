@@ -46,7 +46,7 @@ export default async function RootLayout({
           <Debug />
 
           <OneTapComponent />
-          <Toaster closeButton />
+          <Toaster />
           <Script
             src="https://accounts.google.com/gsi/client"
             strategy="beforeInteractive"
