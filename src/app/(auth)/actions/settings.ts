@@ -1,29 +1,26 @@
 "use server";
 
-import * as z from "zod";
 import bcrypt from "bcryptjs";
+import * as z from "zod";
 
-import { update } from "@/auth";
-import { db } from "@/lib/db";
-import { SettingsSchema } from "@/schemas";
-import { getUserByEmail, getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
-import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
+import { generateVerificationToken } from "@/lib/tokens";
+import { getUserByEmail, getUserById } from "~/app/(auth)/account/user";
+import { db } from "~/lib/prisma";
+import { SettingsSchema } from "~/validators/auth";
 
-export const settings = async (
-  values: z.infer<typeof SettingsSchema>
-) => {
+export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   const user = await currentUser();
 
-  if (!user) {
-    return { error: "Unauthorized" }
+  if (!user || !user.id) {
+    return { error: "Unauthorized" };
   }
 
   const dbUser = await getUserById(user.id);
 
   if (!dbUser) {
-    return { error: "Unauthorized" }
+    return { error: "Unauthorized" };
   }
 
   if (user.isOAuth) {
@@ -37,15 +34,13 @@ export const settings = async (
     const existingUser = await getUserByEmail(values.email);
 
     if (existingUser && existingUser.id !== user.id) {
-      return { error: "Email already in use!" }
+      return { error: "Email already in use!" };
     }
 
-    const verificationToken = await generateVerificationToken(
-      values.email
-    );
+    const verificationToken = await generateVerificationToken(values.email);
     await sendVerificationEmail(
       verificationToken.email,
-      verificationToken.token,
+      verificationToken.token
     );
 
     return { success: "Verification email sent!" };
@@ -54,17 +49,14 @@ export const settings = async (
   if (values.password && values.newPassword && dbUser.password) {
     const passwordsMatch = await bcrypt.compare(
       values.password,
-      dbUser.password,
+      dbUser.password
     );
 
     if (!passwordsMatch) {
       return { error: "Incorrect password!" };
     }
 
-    const hashedPassword = await bcrypt.hash(
-      values.newPassword,
-      10,
-    );
+    const hashedPassword = await bcrypt.hash(values.newPassword, 10);
     values.password = hashedPassword;
     values.newPassword = undefined;
   }
@@ -73,17 +65,17 @@ export const settings = async (
     where: { id: dbUser.id },
     data: {
       ...values,
-    }
+    },
   });
 
-  update({
-    user: {
-      name: updatedUser.name,
-      email: updatedUser.email,
-      isTwoFactorEnabled: updatedUser.isTwoFactorEnabled,
-      role: updatedUser.role,
-    }
-  });
+  // update({
+  //   user: {
+  //     name: updatedUser.name,
+  //     email: updatedUser.email,
+  //     isTwoFactorEnabled: updatedUser.isTwoFactorEnabled,
+  //     role: updatedUser.role,
+  //   }
+  // });
 
-  return { success: "Settings Updated!" }
-}
+  return { success: "Settings Updated!" };
+};
