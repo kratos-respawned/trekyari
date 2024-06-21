@@ -9,6 +9,7 @@ import OneTapComponent from "~/components/googleOneTap";
 import { Debug } from "~/components/ui/debug";
 import { cn } from "~/lib/utils";
 import "./globals.css";
+import "./prose-mirror.css";
 
 const inter = Rethink_Sans({
   subsets: ["latin"],

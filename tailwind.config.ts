@@ -67,12 +67,6 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        // "shake": {
-        //   // create a shake effect like the telephone ringing
-        //   "0%, 100%": { transform: "rotate(-3deg)" },
-        //   "50%": { transform: "rotate(3deg)" },
-
-        // }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -85,7 +79,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;
 
 export default config;
