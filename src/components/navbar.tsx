@@ -49,6 +49,12 @@ export const Navbar = async () => {
           Holiday
         </Link>
         <Link
+          href="/blog/1"
+          className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
+        >
+          Blog
+        </Link>
+        <Link
           href="tel:+919876543210"
           className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
         >
