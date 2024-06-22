@@ -7,6 +7,7 @@ import { LoginSchema } from "@/validators/auth";
 import { getUserByEmail } from "./app/(auth)/account/user";
 import { env } from "@/env";
 import { authorize } from "@/authorize";
+import { UserRole } from "@prisma/client";
 
 export default {
   providers: [
@@ -20,7 +21,7 @@ export default {
       credentials: {
         credential: { type: "text" },
       },
-      
+
       authorize: authorize,
     }),
     Credentials({
@@ -38,4 +39,25 @@ export default {
       },
     }),
   ],
+  callbacks: {
+    async session({ token, session }) {
+      // Ensure role is included in the session
+      if (token.role && session.user) {
+        session.user.role = token.role as UserRole;
+      }
+
+      return session;
+    },
+    async jwt({ token }) {
+      // Ensure role is included in the token
+      let emailSearch = token.email!;
+
+      const user = await getUserByEmail(emailSearch);
+
+      if (user?.role) {
+        token.role = user.role;
+      }
+      return token;
+    },
+  },
 } satisfies NextAuthConfig;
