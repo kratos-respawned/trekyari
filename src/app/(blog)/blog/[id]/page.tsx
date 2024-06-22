@@ -108,6 +108,7 @@ const BlogPage = ({ params }: PageParams) => {
           <CarouselPrevious />
           <CarouselNext />
         </Carousel>
+        {/* content */}
         <hr className="mt-12" />
         <div className="flex justify-center py-6 lg:py-10">
           <Link

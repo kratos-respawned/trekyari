@@ -23,6 +23,7 @@ model User {
   accounts              Account[]
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+  Blog                  Blog[]
 }
 
 model Account {
@@ -78,4 +79,51 @@ model TwoFactorConfirmation {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId])
+}
+
+model Trek {
+  id                   String     @id @default(cuid())
+  name                 String
+  state                String
+  location             String
+  duration             String
+  description          String
+  altitude             String
+  bestTime             String
+  pickupPoint          String
+  difficultyLevel      String
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @default(now())
+  defaultSlots         Int
+  defaultBookingAmount Int
+  defaultTotalAmount   Int
+  Blog                 Blog?      @relation(fields: [blogId], references: [id])
+  blogId               String?
+  BlogTrek             BlogTrek[]
+}
+
+model Blog {
+  id        String     @id @default(cuid())
+  name      String
+  content   Json?
+  html      String?
+  markdown  String?
+  images    String[]
+  faqs      Json
+  author    User       @relation(fields: [userId], references: [id])
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now())
+  treks     Trek[]
+  BlogTrek  BlogTrek[]
+  userId    String
+}
+
+model BlogTrek {
+  blogId String
+  trekId String
+
+  blog Blog @relation(fields: [blogId], references: [id])
+  trek Trek @relation(fields: [trekId], references: [id])
+
+  @@id([blogId, trekId])
 }

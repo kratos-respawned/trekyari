@@ -23,7 +23,9 @@ import { slashCommand, suggestionItems } from "./slash-commands";
 import { defaultExtensions } from "./extensions";
 const extensions = [...defaultExtensions, slashCommand];
 
-const BlogEditor = () => {
+const Editor = ({
+  
+}) => {
   const [initialContent, setInitialContent] = useState<null | JSONContent>(
     null
   );
@@ -44,7 +46,7 @@ const BlogEditor = () => {
       //     "markdown",
       //     editor.storage.markdown.getMarkdown()
       //   );
-      setSaveStatus("Saved");
+      // setSaveStatus("Saved");
     },
     500
   );
@@ -59,7 +61,7 @@ const BlogEditor = () => {
 
   return (
     <>
-      <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
+      <div className="flex absolute right-5 top-0 z-10 mb-5 gap-2">
         <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
           {saveStatus}
         </div>
@@ -77,7 +79,7 @@ const BlogEditor = () => {
         <EditorContent
           //   initialContent={initialContent}
           extensions={extensions}
-          className="relative min-h-[500px] p-12   w-full max-w-screen-lg border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg"
+          className="relative min-h-[500px] p-5 px-7   w-full  border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
@@ -145,4 +147,4 @@ const BlogEditor = () => {
   );
 };
 
-export default BlogEditor;
+export default Editor;

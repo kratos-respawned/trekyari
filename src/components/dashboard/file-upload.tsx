@@ -1,37 +1,37 @@
 "use client";
-import { OurFileRouter } from "@/app/api/uploadthing/core";
-import { UploadDropzone } from "@uploadthing/react";
+// import { OurFileRouter } from "@/app/api/uploadthing/core";
+// import { UploadDropzone } from "@uploadthing/react";
 import { Trash } from "lucide-react";
 import Image from "next/image";
-import { UploadFileResponse } from "uploadthing/client";
+// import { UploadFileResponse } from "uploadthing/client";
 import { IMG_MAX_LIMIT } from "./forms/product-form";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 
 interface ImageUploadProps {
   onChange?: any;
-  onRemove: (value: UploadFileResponse[]) => void;
-  value: UploadFileResponse[];
+  // onRemove: (value: UploadFileResponse[]) => void;
+  // value: UploadFileResponse[];
 }
 
 export default function FileUpload({
   onChange,
-  onRemove,
-  value,
+  // onRemove,
+  // value,
 }: ImageUploadProps) {
   const { toast } = useToast();
   const onDeleteFile = (key: string) => {
-    const files = value;
-    let filteredFiles = files.filter((item) => item.key !== key);
-    onRemove(filteredFiles);
+    // const files = value;
+    // let filteredFiles = files.filter((item) => item.key !== key);
+    // onRemove(filteredFiles);
   };
-  const onUpdateFile = (newFiles: UploadFileResponse[]) => {
-    onChange([...value, ...newFiles]);
-  };
+  // const onUpdateFile = (newFiles: UploadFileResponse[]) => {
+  //   onChange([...value, ...newFiles]);
+  // };
   return (
     <div>
       <div className="mb-4 flex items-center gap-4">
-        {!!value.length &&
+        {/* {!!value.length &&
           value?.map((item) => (
             <div
               key={item.key}
@@ -56,10 +56,10 @@ export default function FileUpload({
                 />
               </div>
             </div>
-          ))}
+          ))} */}
       </div>
       <div>
-        {value.length < IMG_MAX_LIMIT && (
+        {/* {value.length < IMG_MAX_LIMIT && (
           <UploadDropzone<OurFileRouter>
             className="ut-label:text-sm ut-allowed-content:ut-uploading:text-red-300 py-2 dark:bg-zinc-800"
             endpoint="imageUploader"
@@ -94,7 +94,7 @@ export default function FileUpload({
               // Do something once upload begins
             }}
           />
-        )}
+        )} */}
       </div>
     </div>
   );

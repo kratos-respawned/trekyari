@@ -6,6 +6,11 @@
 .pnp.js
 .yarn/install-state.gz
 
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+bun.lockb
+
 # testing
 /coverage
 
