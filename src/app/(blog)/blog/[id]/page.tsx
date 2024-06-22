@@ -87,10 +87,7 @@ const BlogPage = ({ params }: PageParams) => {
             </div>
           ) : null}
         </div>
-        <Carousel
-          
-          className="w-full "
-        >
+        <Carousel autoplay className="w-full ">
           <CarouselContent>
             {Array.from({ length: 5 }).map((_, index) => (
               <CarouselItem key={index}>
