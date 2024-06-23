@@ -21,22 +21,18 @@ import { TextButtons } from "./text-buttons";
 import { ColorSelector } from "./color-selector";
 import { slashCommand, suggestionItems } from "./slash-commands";
 import { defaultExtensions } from "./extensions";
+import TextareaAutosize from "react-textarea-autosize";
+import { Blog } from "@prisma/client";
 const extensions = [...defaultExtensions, slashCommand];
-
-const Editor = ({
-  
-}) => {
-  const [initialContent, setInitialContent] = useState<null | JSONContent>(
-    null
+const Editor = ({ blog }: { blog: Blog | null }) => {
+  const [initialContent, setInitialContent] = useState<JSONContent | undefined>(
+    blog?.content ? (blog.content as JSONContent) : undefined
   );
-  const [saveStatus, setSaveStatus] = useState("Saved");
+  const [saveStatus, setSaveStatus] = useState<"Saved" | "Unsaved">("Unsaved");
   const [charsCount, setCharsCount] = useState();
-
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
-  const [openAI, setOpenAI] = useState(false);
-
   const debouncedUpdates = useDebouncedCallback(
     async (editor: EditorInstance) => {
       const json = editor.getJSON();
@@ -51,16 +47,12 @@ const Editor = ({
     500
   );
 
-  //   useEffect(() => {
-  //     const content = window.localStorage.getItem("novel-content");
-  //     if (content) setInitialContent(JSON.parse(content));
-  //     else setInitialContent(defaultEditorContent);
-  //   }, []);
-
-  //   if (!initialContent) return null;
-
   return (
-    <>
+    <section className="pt-8 space-y-3">
+      <TextareaAutosize
+        placeholder="Title"
+        className="w-full resize-none border rounded-lg py-3 appearance-none overflow-hidden bg-transparent text-4xl pl-4 font-bold focus:outline-none"
+      />
       <div className="flex absolute right-5 top-0 z-10 mb-5 gap-2">
         <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
           {saveStatus}
@@ -77,7 +69,7 @@ const Editor = ({
       </div>
       <EditorRoot>
         <EditorContent
-          //   initialContent={initialContent}
+          initialContent={initialContent}
           extensions={extensions}
           className="relative min-h-[500px] p-5 px-7   w-full  border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg"
           editorProps={{
@@ -143,7 +135,7 @@ const Editor = ({
           </EditorBubble>
         </EditorContent>
       </EditorRoot>
-    </>
+    </section>
   );
 };
 

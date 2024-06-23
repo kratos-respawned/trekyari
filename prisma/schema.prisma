@@ -100,6 +100,7 @@ model Trek {
   Blog                 Blog?      @relation(fields: [blogId], references: [id])
   blogId               String?
   BlogTrek             BlogTrek[]
+  trekImages           String[]
 }
 
 model Blog {
@@ -109,13 +110,24 @@ model Blog {
   html      String?
   markdown  String?
   images    String[]
-  faqs      Json
   author    User       @relation(fields: [userId], references: [id])
   createdAt DateTime   @default(now())
   updatedAt DateTime   @default(now())
   treks     Trek[]
   BlogTrek  BlogTrek[]
   userId    String
+  faqs      faqs[]
+
+}
+
+model faqs {
+  id         String  @id @default(cuid())
+  question   String
+  answer     String
+  blogId     String
+  visibility Boolean @default(true)
+  Blog       Blog    @relation(fields: [blogId], references: [id]) 
+  @@index([blogId])
 }
 
 model BlogTrek {
@@ -124,6 +136,5 @@ model BlogTrek {
 
   blog Blog @relation(fields: [blogId], references: [id])
   trek Trek @relation(fields: [trekId], references: [id])
-
   @@id([blogId, trekId])
 }
