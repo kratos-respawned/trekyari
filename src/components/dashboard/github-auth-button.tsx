@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Icons } from "../icons";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 export default function GoogleSignInButton() {
   const searchParams = useSearchParams();
@@ -18,7 +19,7 @@ export default function GoogleSignInButton() {
         signIn("github", { callbackUrl: callbackUrl ?? "/dashboard" })
       }
     >
-      <Icons.gitHub className="mr-2 h-4 w-4" />
+      <GitHubLogoIcon className="mr-2 h-4 w-4" />
       Continue with Github
     </Button>
   );
