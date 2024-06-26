@@ -1,10 +1,10 @@
 "use client";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Employee } from "@/constants/data";
+import { SeoMetadata } from "@/constants/data";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 
-export const columns: ColumnDef<Employee>[] = [
+export const columns: ColumnDef<SeoMetadata>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -27,24 +27,23 @@ export const columns: ColumnDef<Employee>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "first_name",
-    header: "NAME",
+    accessorKey: "url",
+    header: "URL",
   },
   {
-    accessorKey: "country",
-    header: "COUNTRY",
+    accessorKey: "title",
+    header: "Title",
   },
   {
-    accessorKey: "email",
-    header: "EMAIL",
-  },
-  {
-    accessorKey: "job",
-    header: "COMPANY",
-  },
-  {
-    accessorKey: "gender",
-    header: "GENDER",
+    accessorKey: "description",
+    header: "Description",
+    cell: ({ row }) => (
+      <div>
+        {row.original.description.length > 50
+          ? `${row.original.description.slice(0, 50)}...`
+          : row.original.description}
+      </div>
+    ),
   },
   {
     id: "actions",

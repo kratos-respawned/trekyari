@@ -117,7 +117,6 @@ model Blog {
   BlogTrek  BlogTrek[]
   userId    String
   faqs      faqs[]
-
 }
 
 model faqs {
@@ -126,7 +125,8 @@ model faqs {
   answer     String
   blogId     String
   visibility Boolean @default(true)
-  Blog       Blog    @relation(fields: [blogId], references: [id]) 
+  Blog       Blog    @relation(fields: [blogId], references: [id])
+
   @@index([blogId])
 }
 
@@ -136,5 +136,28 @@ model BlogTrek {
 
   blog Blog @relation(fields: [blogId], references: [id])
   trek Trek @relation(fields: [trekId], references: [id])
+
   @@id([blogId, trekId])
+}
+
+model SeoMetadata {
+  id            String   @id @default(cuid())
+  url           String   @unique
+  title         String
+  description   String
+  h1            String
+  canonical     String
+  ogUrl         String
+  ogTitle       String
+  ogDescription String
+  ogImage       String
+  schema        String
+  metaRobots    String
+  altTag        String
+  schemaReview  String
+  keywords      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+
+  @@index([url])
 }

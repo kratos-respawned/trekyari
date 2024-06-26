@@ -92,6 +92,26 @@ export const users: User[] = [
   },
 ];
 
+export interface SeoMetadata {
+  id: string;
+  url: string;
+  title: string;
+  description: string;
+  h1: string;
+  canonical: string;
+  ogUrl: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+  schema: any;
+  metaRobots: string;
+  altTag: string;
+  schemaReview: any;
+  keywords: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export type Employee = {
   id: number;
   first_name: string;
@@ -125,10 +145,10 @@ export const navItems: NavItem[] = [
     label: "user",
   },
   {
-    title: "Employee",
-    href: "/dashboard/employee",
-    icon: "employee",
-    label: "employee",
+    title: "SEO",
+    href: "/dashboard/seo",
+    icon: "page",
+    label: "SEO",
   },
   {
     title: "Profile",
