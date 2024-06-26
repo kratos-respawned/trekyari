@@ -1,4 +1,3 @@
-import { SiTwitter, SiYoutube } from "@icons-pack/react-simple-icons";
 import {
   CheckSquare,
   Code,
@@ -14,6 +13,8 @@ import {
 } from "lucide-react";
 import { createSuggestionItems } from "novel/extensions";
 import { Command, renderItems } from "novel/extensions";
+import { FaYoutube } from "react-icons/fa6";
+import { BsTwitterX } from "react-icons/bs";
 //   import { uploadFn } from "./image-upload";
 
 export const suggestionItems = createSuggestionItems([
@@ -140,7 +141,7 @@ export const suggestionItems = createSuggestionItems([
     title: "Youtube",
     description: "Embed a Youtube video.",
     searchTerms: ["video", "youtube", "embed"],
-    icon: <SiYoutube size={18} />,
+    icon: <FaYoutube size={18} />,
     command: ({ editor, range }) => {
       const videoLink = prompt("Please enter Youtube Video Link") || "";
       //From https://regexr.com/3dj5t
@@ -168,7 +169,7 @@ export const suggestionItems = createSuggestionItems([
     title: "Twitter",
     description: "Embed a Tweet.",
     searchTerms: ["twitter", "embed"],
-    icon: <SiTwitter size={18} />,
+    icon: <BsTwitterX size={18} />,
     command: ({ editor, range }) => {
       const tweetLink = prompt("Please enter Twitter Link") || "";
       const tweetRegex = new RegExp(
