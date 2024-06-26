@@ -131,5 +131,6 @@ const Editor = forwardRef<EditorInstance | null, Props>(
     );
   }
 );
+Editor.displayName = "Editor";
 
 export default Editor;
