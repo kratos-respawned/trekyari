@@ -41,17 +41,17 @@ export default {
   ],
   callbacks: {
     async session({ token, session }) {
-      // Ensure role is included in the session
-      if (token.role && session.user) {
-        session.user.role = token.role as UserRole;
-      }
-
+      const { email } = token;
+      if (!email) return session;
+      const user = await getUserByEmail(email);
+      if (!user) return session;
+      session.user.id = user.id;
+      session.user.role = user.role;
       return session;
     },
     async jwt({ token }) {
       // Ensure role is included in the token
       let emailSearch = token.email!;
-
       const user = await getUserByEmail(emailSearch);
 
       if (user?.role) {
