@@ -11,8 +11,7 @@ import {
   type JSONContent,
 } from "novel";
 import { ImageResizer, handleCommandNavigation } from "novel/extensions";
-import { forwardRef, useState } from "react";
-
+import { Dispatch, forwardRef, SetStateAction, useState } from "react";
 import { Separator } from "~/components/ui/separator";
 import { NodeSelector } from "./node-selector";
 import { LinkSelector } from "./link-selector";
@@ -21,14 +20,16 @@ import { ColorSelector } from "./color-selector";
 import { slashCommand, suggestionItems } from "./slash-commands";
 import { defaultExtensions } from "./extensions";
 import { cn } from "~/lib/utils";
+import { useDebouncedCallback } from "use-debounce";
 const extensions = [...defaultExtensions, slashCommand];
 type Props = {
   blog: JSONContent | null;
   className?: string;
+  setSaveStatus: Dispatch<SetStateAction<"Saved" | "Unsaved">>;
 };
 
 const Editor = forwardRef<EditorInstance | null, Props>(
-  ({ blog, className }, ref) => {
+  ({ blog, className, setSaveStatus }, ref) => {
     const [initialContent, setInitialContent] = useState<
       JSONContent | undefined
     >(blog ? blog : undefined);
@@ -36,20 +37,19 @@ const Editor = forwardRef<EditorInstance | null, Props>(
     const [openNode, setOpenNode] = useState(false);
     const [openColor, setOpenColor] = useState(false);
     const [openLink, setOpenLink] = useState(false);
-
-    // const debouncedUpdates = useDebouncedCallback(
-    //   async (editor: EditorInstance) => {
-    //     const json = editor.getJSON();
-    //     // setCharsCount(editor.storage.characterCount.words());
-    //     //   window.localStorage.setItem("novel-content", JSON.stringify(json));
-    //     //   window.localStorage.setItem(
-    //     //     "markdown",
-    //     //     editor.storage.markdown.getMarkdown()
-    //     //   );
-    //     // setSaveStatus("Saved");
-    //   },
-    //   500
-    // );
+    const debouncedUpdates = useDebouncedCallback(
+      async (editor: EditorInstance) => {
+        // const json = editor.getJSON();
+        // setCharsCount(editor.storage.characterCount.words());
+        //   window.localStorage.setItem("novel-content", JSON.stringify(json));
+        //   window.localStorage.setItem(
+        //     "markdown",
+        //     editor.storage.markdown.getMarkdown()
+        //   );
+        setSaveStatus("Unsaved");
+      },
+      500
+    );
 
     return (
       <>

@@ -31,28 +31,73 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Loader } from "lucide-react";
-import { CreateFaq } from "~/app/(dashboard)/dashboard/blogs/[blogId]/_actions";
-// import { Textarea } from "@/components/ui/textarea"
+import {
+  CreateFaq,
+  SaveBlog,
+} from "~/app/(dashboard)/dashboard/blogs/[blogId]/_actions";
+import { cn } from "~/lib/utils";
+import { BlogSchema } from "~/validators/blog";
 interface BlogFormProps {
-  blog: Blog | null;
+  blog: Blog;
   faqs: faqs[] | null;
 }
 export const BlogForm = ({ blog, faqs }: BlogFormProps) => {
   const editorRef = useRef<EditorInstance>(null);
   const [clientFaqs, setClientFaqs] = useState<faqs[]>(faqs || []);
+  const [title, setTitle] = useState(blog?.name || "Untitled");
+  const [isPending, startTransition] = useTransition();
   const [saveStatus, setSaveStatus] = useState<"Saved" | "Unsaved">("Unsaved");
   const { toast } = useToast();
+  const saveState = async () => {
+    startTransition(async () => {
+      console.log("Saving state");
+      const json = editorRef.current?.getJSON();
+      const html = editorRef.current?.getHTML();
+      const blogObject: BlogSchema = {
+        name: title,
+        id: blog.id,
+        content: {
+          html: html || "",
+          json: json || "",
+        },
+      };
+      const { success, error } = await SaveBlog(JSON.stringify(blogObject));
+      if (error) {
+        toast({
+          title: "Error",
+          description: error,
+          variant: "destructive",
+        });
+        return;
+      }
+      toast({
+        title: "Success",
+        description: success,
+      });
+      setSaveStatus("Saved");
+    });
+  };
   return (
-    <section className=" relative pt-8 space-y-3">
+    <section
+      className={cn(
+        " relative pt-8 space-y-3",
+        isPending && "pointer-events-none opacity-50"
+      )}
+    >
       <div className="flex items-center absolute right-5 top-0 z-10 mb-5 gap-2">
         <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
           {saveStatus}
         </div>
-        <Button>Save</Button>
+        <Button onClick={saveState}>Save</Button>
       </div>
       <p className="text-lg font-semibold">Title</p>
       <TextareaAutosize
-        placeholder="Title"
+        onChange={(e) => {
+          setTitle(e.target.value);
+          setSaveStatus("Unsaved");
+        }}
+        placeholder={title}
+        value={title}
         className="w-full resize-none border rounded-lg py-3 appearance-none overflow-hidden bg-transparent text-4xl pl-4 font-bold focus:outline-none"
       />
 
@@ -61,6 +106,7 @@ export const BlogForm = ({ blog, faqs }: BlogFormProps) => {
       <Editor
         className="border-2 dark:border"
         ref={editorRef}
+        setSaveStatus={setSaveStatus}
         blog={blog?.content as JSONContent | null}
       />
       <div className="flex justify-between  pt-7">
@@ -103,7 +149,7 @@ export default function AddFaq({ blogId }: { blogId: string }) {
   const [open, setOpen] = useState(false);
   async function addFaq(formdata: FaqSchema) {
     startTransition(async () => {
-        //    await new Promise((resolve) => setTimeout(resolve, 4000));
+      //    await new Promise((resolve) => setTimeout(resolve, 4000));
       const { success, error } = await CreateFaq(formdata);
       if (error) {
         toast({

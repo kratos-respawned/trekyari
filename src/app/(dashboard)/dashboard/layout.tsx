@@ -17,7 +17,7 @@ export default function DashboardLayout({
 }) {
   return (
     <>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <ThemeProvider attribute="class" defaultTheme="light" >
         <Header />
         <div className="flex h-screen overflow-hidden">
           <Sidebar />
