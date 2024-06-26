@@ -1,4 +1,3 @@
-import { SiGithub, SiTwitter } from "@icons-pack/react-simple-icons";
 import {
   AlertTriangle,
   ArrowRight,
@@ -60,9 +59,7 @@ export const Icons = {
   pizza: Pizza,
   sun: SunMedium,
   moon: Moon,
-  blog:NotebookText,
+  blog: NotebookText,
   laptop: Laptop,
-  gitHub: ({ ...props }: LucideProps) => <SiGithub {...props} />,
-  twitter: ({ ...props }: LucideProps) => <SiTwitter {...props} />,
   check: Check,
 };
