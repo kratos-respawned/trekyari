@@ -37,6 +37,7 @@ import {
 } from "~/app/(dashboard)/dashboard/blogs/[blogId]/_actions";
 import { cn } from "~/lib/utils";
 import { BlogSchema } from "~/validators/blog";
+import { useRouter } from "next/navigation";
 interface BlogFormProps {
   blog: Blog;
   faqs: faqs[] | null;
@@ -147,6 +148,7 @@ export default function AddFaq({ blogId }: { blogId: string }) {
     },
   });
   const [open, setOpen] = useState(false);
+  const router=useRouter();
   async function addFaq(formdata: FaqSchema) {
     startTransition(async () => {
       //    await new Promise((resolve) => setTimeout(resolve, 4000));
@@ -158,6 +160,7 @@ export default function AddFaq({ blogId }: { blogId: string }) {
         });
         return;
       }
+      router.refresh();
       toast({
         title: "Success",
         description: success,

@@ -35,9 +35,10 @@ const post = {
   ],
 };
 const BlogPage = async ({ params }: PageParams) => {
+  console.log(params.id);
   const blog = await db.blog.findUnique({
     where: {
-      id: params.id,
+      id: params.id
     },
     include: {
       author: true,

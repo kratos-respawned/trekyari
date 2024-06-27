@@ -21,7 +21,7 @@ export default async function BlogsDashboard() {
     return {
       ...rest,
       userId: author.name || author.email || "Anonymous",
-      link: `${env.NEXT_PUBLIC_APP_URL}/blogs/${blog.id}`,
+      link: `/blog/${blog.id}`,
     };
   });
   return (

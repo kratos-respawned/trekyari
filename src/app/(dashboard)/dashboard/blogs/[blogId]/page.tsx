@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import React from "react";
 import { BlogForm } from "~/components/dashboard/forms/blogs-form";
 import { db } from "~/lib/prisma";
+export const dynamic="force-dynamic"
 interface BlogEditorParams {
   params: {
     blogId: string;

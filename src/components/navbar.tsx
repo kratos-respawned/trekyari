@@ -50,7 +50,7 @@ export const Navbar = async () => {
           Holiday
         </Link>
         <Link
-          href="/blog/1"
+          href="/blog"
           className="text-base transition-all font-medium hover:underline hover:text-primary underline-offset-4"
         >
           Blog
