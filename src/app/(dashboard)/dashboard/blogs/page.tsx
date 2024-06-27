@@ -1,21 +1,13 @@
 import BreadCrumb from "@/components/dashboard/breadcrumb";
 
 import { BlogClient } from "~/components/dashboard/tables/blog-tables/client";
+import { env } from "~/env";
 import { db } from "~/lib/prisma";
 
 const breadcrumbItems = [{ title: "Blogs", link: "/dashboard/blogs" }];
 export default async function BlogsDashboard() {
   const blogs = await db.blog.findMany({
-    select: {
-      id: true,
-      name: true,
-      content: true,
-      html: true,
-      markdown: true,
-      images: true,
-      createdAt: true,
-      updatedAt: true,
-      userId: true,
+    include: {
       author: {
         select: {
           name: true,
@@ -26,7 +18,11 @@ export default async function BlogsDashboard() {
   });
   const data = blogs.map((blog) => {
     const { author, ...rest } = blog;
-    return { ...rest, userId: author.name || author.email || "Unknown" };
+    return {
+      ...rest,
+      userId: author.name || author.email || "Anonymous",
+      link: `${env.NEXT_PUBLIC_APP_URL}/blogs/${blog.id}`,
+    };
   });
   return (
     <>

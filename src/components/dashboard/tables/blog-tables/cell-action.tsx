@@ -11,24 +11,59 @@ import {
 import { Blog } from "@prisma/client";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { DeleteBlog } from "~/app/(dashboard)/dashboard/blogs/_action";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
+import { toast } from "~/components/ui/use-toast";
 
 interface CellActionProps {
   data: Blog;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  const onConfirm = async () => {};
+  const onConfirm = async () => {
+    startTransition(async () => {
+      const { error, success } = await DeleteBlog(data.id);
+      if (error) {
+        toast({
+          title: "Error",
+          description: error,
+        });
+        return;
+      }
+      toast({
+        title: "Success",
+        description: success,
+      });
+    });
+  };
 
   return (
     <>
       <AlertModal
         isOpen={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          if (loading) {
+            toast({
+              title: "Error",
+              description: "Please wait for the current action to complete",
+            });
+            return;
+          }
+          setOpen(false);
+        }}
         onConfirm={onConfirm}
         loading={loading}
       />

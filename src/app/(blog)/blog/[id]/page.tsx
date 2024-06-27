@@ -1,6 +1,7 @@
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Navbar } from "~/components/navbar";
 import { buttonVariants } from "~/components/ui/button";
 import { CardContent } from "~/components/ui/card";
@@ -12,6 +13,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "~/components/ui/carousel";
+import { db } from "~/lib/prisma";
 import { cn, formatDate } from "~/lib/utils";
 
 interface PageParams {
@@ -32,13 +34,24 @@ const post = {
     },
   ],
 };
-const BlogPage = ({ params }: PageParams) => {
+const BlogPage = async ({ params }: PageParams) => {
+  const blog = await db.blog.findUnique({
+    where: {
+      id: params.id,
+    },
+    include: {
+      author: true,
+    },
+  });
+  if (!blog) {
+    notFound();
+  }
   return (
     <main className="flex flex-col min-h-[100dvh]">
       <Navbar />
       <article className="container relative max-w-4xl py-6 lg:pt-10">
         <Link
-          href="/blog/1"
+          href={`/blog`}
           className={cn(
             buttonVariants({ variant: "ghost" }),
             "absolute left-[-200px] top-14 hidden xl:inline-flex"
@@ -49,43 +62,42 @@ const BlogPage = ({ params }: PageParams) => {
         </Link>
         <div>
           <h1 className=" inline-block font-heading text-4xl leading-tight lg:text-5xl">
-            {post.title}
+            {blog.name}
           </h1>
-          {post.date && (
+          {blog.createdAt && (
             <time
-              dateTime={post.date}
+              dateTime={blog.createdAt.toDateString()}
               className="block mt-2 text-sm text-muted-foreground"
             >
-              Published on {formatDate(post.date)}
+              Published on {formatDate(blog.createdAt.toDateString())}
             </time>
           )}
-          {post.authors?.length ? (
-            <div className="mt-4 flex space-x-4">
-              {post.authors.map((author) =>
-                author ? (
-                  <Link
-                    key={author._id}
-                    href={`https://twitter.com/${author.twitter}`}
-                    className="flex items-center space-x-2 text-sm"
-                  >
-                    <Image
-                      src={author.avatar}
-                      alt={author.title}
-                      width={42}
-                      height={42}
-                      className="rounded-full bg-white"
-                    />
-                    <div className="flex-1 text-left leading-tight">
-                      <p className="font-medium">{author.title}</p>
-                      <p className="text-[12px] text-muted-foreground">
-                        @{author.twitter}
-                      </p>
-                    </div>
-                  </Link>
-                ) : null
-              )}
-            </div>
-          ) : null}
+
+          <div className="mt-4 flex space-x-4">
+            {
+              <Link
+                key={blog.author.id}
+                href={`https://twitter.com/${blog.author.email}`}
+                className="flex items-center space-x-2 text-sm"
+              >
+                <Image
+                  src={blog.author.image || post.authors.at(0)?.avatar || ""}
+                  alt={blog.author.name || "anonymous"}
+                  width={42}
+                  height={42}
+                  className="rounded-full bg-white"
+                />
+                <div className="flex-1 text-left leading-tight">
+                  <p className="font-medium">{blog.author.name}</p>
+                  {blog.author.email && (
+                    <p className="text-[12px] text-muted-foreground">
+                      {blog.author.email}
+                    </p>
+                  )}
+                </div>
+              </Link>
+            }
+          </div>
         </div>
         <Carousel autoplay className="w-full ">
           <CarouselContent>
@@ -108,7 +120,10 @@ const BlogPage = ({ params }: PageParams) => {
           <CarouselPrevious />
           <CarouselNext />
         </Carousel>
-        {/* content */}
+        <article
+          className="prose"
+          dangerouslySetInnerHTML={{ __html: blog.html || "No content" }}
+        />
         <hr className="mt-12" />
         <div className="flex justify-center py-6 lg:py-10">
           <Link

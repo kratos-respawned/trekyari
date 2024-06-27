@@ -4,8 +4,13 @@ import { CellAction } from "./cell-action";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Blog } from "@prisma/client";
+import Link from "next/link";
 
-export const columns: ColumnDef<Blog>[] = [
+export const columns: ColumnDef<
+  Blog & {
+    link: string;
+  }
+>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -40,8 +45,9 @@ export const columns: ColumnDef<Blog>[] = [
     header: "Created By",
   },
   {
-    accessorKey: "images",
-    header: "Images",
+    accessorKey: "link",
+    header: "Link",
+    cell: ({ row }) => <Link href={row.original.link}>View</Link>,
   },
   {
     id: "actions",

@@ -13,7 +13,9 @@ import { CreateNewBlog } from "~/app/(dashboard)/dashboard/blogs/_action";
 import { toast } from "~/components/ui/use-toast";
 
 interface ProductsClientProps {
-  data: Blog[];
+  data: (Blog & {
+    link: string;
+  })[];
 }
 
 export const BlogClient: React.FC<ProductsClientProps> = ({ data }) => {

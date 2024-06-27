@@ -125,7 +125,7 @@ model faqs {
   answer     String
   blogId     String
   visibility Boolean @default(true)
-  Blog       Blog    @relation(fields: [blogId], references: [id])
+  Blog       Blog    @relation(fields: [blogId], references: [id], onDelete: Cascade)
 
   @@index([blogId])
 }

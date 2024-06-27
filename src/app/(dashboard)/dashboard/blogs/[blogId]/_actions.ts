@@ -57,6 +57,7 @@ export const SaveBlog = async (blogStr: string) => {
       },
     });
     revalidatePath(`/dashboard/blogs`);
+    revalidatePath(`/blog/${data.id}`);
     return { success: "Blog saved successfully" };
   } catch (error) {
     return { error: "Error saving blog" };

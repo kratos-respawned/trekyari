@@ -70,11 +70,11 @@ const Editor = forwardRef<EditorInstance | null, Props>(
                 keydown: (_view, event) => handleCommandNavigation(event),
               },
               handlePaste: (view, event) => {
-                alert("paste ded for now");
+                // alert("paste ded for now");
                 //   handleImagePaste(view, event, uploadFn);
               },
               handleDrop: (view, event, _slice, moved) => {
-                alert("drop ded for now");
+                // alert("drop ded for now");
                 //   handleImageDrop(view, event, moved, uploadFn);
               },
               attributes: {
